@@ -33,7 +33,7 @@ const Header = () => {
         <>
             <div id="header" className="flex flex-col items-center justify-around w-full h-32 bg-green-300">
                 <div id="subheader1" className="h-[60%] flex items-center justify-around w-full border-b-2 border-green-950 p-[1%]">
-                    <div className="flex flex-[4_1_0%] h-full justify-center">
+                    <div className=" flex flex-[4_1_0%] h-full justify-center">
                         <NavLink to="/">
                             <img src={logo} className="h-full object-fill" />
                         </NavLink>
@@ -57,8 +57,8 @@ const Header = () => {
                     <div className="flex flex-[4_1_0%] h-full justify-center items-center">
                         {isLogin ? (
                             <div className="h-full w-full flex flex-col">
-                                <div onClick={() => { setIsProfileOpen((v) => !v) }} className="cursor-pointer px-4 rounded-full h-[70%] flex justify-center items-center">
-                                    <img src={user.avatar} className="h-[3rem] w-[3rem] rounded-full"></img>
+                                <div onClick={() => { setIsProfileOpen((v) => !v) }} className="pt-4 cursor-pointer px-4 rounded-full h-[70%] flex justify-center items-center">
+                                    <img src={user.avatar} className=" h-[3rem] w-[3rem] rounded-full"></img>
                                 </div>
                                 <div className={`justify-evenly ml-8 flex flex-col min-h-[25vh] min-w-[3vw] max-w-[15vw] bg-green-900 border-green-950 border-2 rounded-xl z-10 
                                                 ${isProfileOpen ? ('') : ('hidden pointer-events-none')}`}>

@@ -1,4 +1,4 @@
-
+import Community from './Community.jsx'
 
 function Home() {
 
@@ -34,45 +34,7 @@ function Home() {
       </section>
 
       {/* <!-- Communities Section --> */}
-      <section id="communities" class="bg-gray-200 py-8">
-          <div class="container mx-auto">
-              <h2 class="text-2xl font-bold text-center mb-6">Communities</h2>
-              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                  <div class="bg-white p-4 shadow-md">
-                      <h3 class="text-lg font-bold">Yantra Mitra</h3>
-                      <p class="mt-2">Learn about modern farming tools.</p>
-                  </div>
-                  <div class="bg-white p-4 shadow-md">
-                      <h3 class="text-lg font-bold">Annadata Ki Kahani</h3>
-                      <p class="mt-2">Stories of inspiring farmers.</p>
-                  </div>
-                  <div class="bg-white p-4 shadow-md">
-                      <h3 class="text-lg font-bold">Hariyali Samvad</h3>
-                      <p class="mt-2">Discussions on sustainable farming.</p>
-                  </div>
-                  <div class="bg-white p-4 shadow-md">
-                      <h3 class="text-lg font-bold">Shiksha Aur Kheti</h3>
-                      <p class="mt-2">Education and farming insights.</p>
-                  </div>
-                  <div class="bg-white p-4 shadow-md">
-                      <h3 class="text-lg font-bold">Bazaar</h3>
-                      <p class="mt-2">Marketplace updates and resources.</p>
-                  </div>
-                  <div class="bg-white p-4 shadow-md">
-                      <h3 class="text-lg font-bold">Videsh Bazaar</h3>
-                      <p class="mt-2">Export opportunities for farmers.</p>
-                  </div>
-                  <div class="bg-white p-4 shadow-md">
-                      <h3 class="text-lg font-bold">Jaivik Mandi</h3>
-                      <p class="mt-2">Connect to organic produce markets.</p>
-                  </div>
-                  <div class="bg-white p-4 shadow-md">
-                      <h3 class="text-lg font-bold">Kheti Salah</h3>
-                      <p class="mt-2">Expert agricultural advice and solutions.</p>
-                  </div>
-              </div>
-          </div>
-      </section>
+      <Community />
 
 
       {/* <!-- Reviews Section --> */}
