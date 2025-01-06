@@ -6,8 +6,9 @@ import { fileURLToPath } from 'url'
 import userRouter from './routes/user.route.js'
 import { createServer } from 'http'
 import {Server} from 'socket.io'
-import messageRouter from './routes/messageRouter.js'
+import messageRouter from './routes/message.route.js'
 import chatSocket from './sockets/chatSocket.js'
+import productRouter from './routes/product.route.js'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
@@ -36,6 +37,8 @@ app.use('/user',userRouter)
 
 app.use('/message', messageRouter)
 
+app.use('/product', productRouter)
+
 
 //creating server
 
@@ -45,7 +48,7 @@ const server = createServer(app)
 
 const io = new Server(server, {
     'cors': {
-        origin: 'http://localhost:3000',
+        origin: process.env.CORS_ORIGIN,
         credentials: true
     }
 })

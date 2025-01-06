@@ -1,5 +1,5 @@
 import logo from  '../../assets/logo.png'
-import {NavLink} from 'react-router-dom'
+import {NavLink,Link} from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import {useState} from 'react'
 import {useDispatch} from 'react-redux'
@@ -15,7 +15,7 @@ const Header = () => {
         setIsProfileOpen(false)
         dispatch(logout())
         console.log('logout button')
-        axios.get('http://localhost:8001/user/logout', {
+        axios.get(`${import.meta.env.VITE_BACKEND_API}/user/logout`, {
             withCredentials: true
         })
         .then((res) => {
@@ -56,18 +56,25 @@ const Header = () => {
                     </div>
                     <div className="flex flex-[4_1_0%] h-full justify-center items-center">
                         {isLogin ? (
-                            <div className="h-full w-full flex flex-col">
-                                <div onClick={() => { setIsProfileOpen((v) => !v) }} className="pt-4 cursor-pointer px-4 rounded-full h-[70%] flex justify-center items-center">
-                                    <img src={user.avatar} className=" h-[3rem] w-[3rem] rounded-full"></img>
+                            <>
+                                <div className="h-full w-full flex flex-col">
+                                    <div onClick={() => { setIsProfileOpen((v) => !v) }} className="pt-4 cursor-pointer px-4 rounded-full h-[70%] flex justify-center items-center">
+                                        <img src={user.avatar} className=" h-[3rem] w-[3rem] rounded-full"></img>
+                                    </div>
+                                    <div className={`mt-4 justify-evenly ml-8 flex flex-col min-h-[25vh] min-w-[12vw] max-w-[15vw] bg-green-900 border-green-950 border-2 rounded-xl z-10 
+                                                    ${isProfileOpen ? ('') : ('hidden pointer-events-none')}`}>
+                                        <div onClick={() => { setIsProfileOpen((v) => !v) }} className="mb-4 cursor-pointer relative self-end top-1 w-6 h-4 text-3xl flex justify-center items-center">×</div>
+                                        <div className="cursor-pointer border-b-2 border-b-amber-950">My Profile</div>
+                                        <div className="cursor-pointer border-b-2 border-b-amber-950">My Products</div>
+                                        <div onClick={logoutHandler} className="cursor-pointer mb-4">Log out</div>
+                                    </div>
                                 </div>
-                                <div className={`justify-evenly ml-8 flex flex-col min-h-[25vh] min-w-[3vw] max-w-[15vw] bg-green-900 border-green-950 border-2 rounded-xl z-10 
-                                                ${isProfileOpen ? ('') : ('hidden pointer-events-none')}`}>
-                                    <div onClick={() => { setIsProfileOpen((v) => !v) }} className="mb-4 cursor-pointer relative self-end top-1 w-6 h-4 text-3xl flex justify-center items-center">×</div>
-                                    <div className="cursor-pointer border-b-2 border-b-amber-950">My Profile</div>
-                                    <div className="cursor-pointer border-b-2 border-b-amber-950">My Products</div>
-                                    <div onClick={logoutHandler} className="cursor-pointer mb-4">Log out</div>
+                                <Link to='/addproduct'>
+                                <div className = 'rounded-full bg-green-950 p-4 pt-0 h-full w-32 text-white text-center'>
+                                    Add Products
                                 </div>
-                            </div>
+                                </Link>
+                            </>
                         ) : (
                             <NavLink to="/auth" className="h-full flex justify-center items-center">
                                 <div className="px-4 bg-green-950 text-white rounded-full h-[70%] flex justify-center items-center">

@@ -16,7 +16,7 @@ const Chatbox = ({chatName, roomId}) => {
 
     const handleSendMessage = async (e) => {
         e.preventDefault()
-        await axios.post('http://localhost:8001/message/put', {sender: user.username, message: input, roomId:String(roomId)})
+        await axios.post(`${import.meta.env.VITE_BACKEND_API}/message/put`, {sender: user.username, message: input, roomId:String(roomId)})
         .then((res) => {
             if (res.status ==200){
                 if (input.trim()) {
@@ -39,7 +39,7 @@ const Chatbox = ({chatName, roomId}) => {
         if (!isLogin){
             navigate('/')
         }
-         axios.post('http://localhost:8001/message/get', {roomId: roomId})
+         axios.post(`${import.meta.env.VITE_BACKEND_API}/message/get`, {roomId: roomId})
         .then((res) => {
             if (res.status==200){
                 setMessages(res.data.data)

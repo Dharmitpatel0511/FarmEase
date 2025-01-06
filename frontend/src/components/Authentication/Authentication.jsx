@@ -37,7 +37,7 @@ const Authentication = () => {
             formdata.append("avatar", file)
         }
 
-        await axios.post('http://localhost:8001/user/create', formdata, {
+        await axios.post(`${import.meta.env.VITE_BACKEND_API}/user/create`, formdata, {
             headers: {
                 'Content-Type': 'multipart/form-data',
             },
@@ -65,7 +65,7 @@ const Authentication = () => {
             loginData[key] = value
         })
         e.preventDefault()
-        await axios.post('http://localhost:8001/user/login',loginData,{
+        await axios.post(`${import.meta.env.VITE_BACKEND_API}/user/login`,loginData,{
             withCredentials: true
         })
         .then((res) =>  {

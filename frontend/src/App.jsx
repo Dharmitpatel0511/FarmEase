@@ -9,8 +9,10 @@ import { useDispatch,useSelector } from "react-redux"
 import { login } from "./features/loginSlicer.js"
 import { ChatBox1, ChatBox2, ChatBox3, ChatBox4, ChatBox5, ChatBox6, ChatBox7, ChatBox8 } from "./components/Home/ChatBoxes.jsx"
 import {io} from 'socket.io-client'
+import CreateProduct from "./components/Products/CreateProduct.jsx"
 
-export const socket = io('http://localhost:8001/')
+
+export const socket = io(import.meta.env.VITE_BACKEND_API)
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -27,6 +29,7 @@ const router = createBrowserRouter(
           <Route path='/chatbox6' element={<ChatBox6/>}></Route>
           <Route path='/chatbox7' element={<ChatBox7/>}></Route>
           <Route path='/chatbox8' element={<ChatBox8/>}></Route>
+          <Route path='/addproduct' element={<CreateProduct />}></Route>
         </Route>
       </>
     )
@@ -35,18 +38,22 @@ const router = createBrowserRouter(
 
 
 const App = () => {
+    console.log(import.meta.env)
     const dispatch = useDispatch()
     useEffect(() => {
         const fetchUser = async () => {
           try {
-            const res = await axios.get("http://localhost:8001/user/getuser", {
+            const res = await axios.get(`${import.meta.env.VITE_BACKEND_API}/user/getuser`, {
               withCredentials: true,
             });
             
             if (res.status < 400) {
               console.log("Redux has logged-in user");
+              console.log(`${import.meta.env.VITE_BACKEND_API}/user/getuser`)
               console.log(res.data.data)
-              dispatch(login(res.data.data))
+              if (res.data.data){
+                dispatch(login(res.data.data))
+              }
               
             } else {
               console.log("Redux has not logged-in user");
