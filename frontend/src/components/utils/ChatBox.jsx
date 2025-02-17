@@ -121,6 +121,11 @@ const Chatbox = ({chatName, roomId}) => {
             placeholder="Type a message..."
             value={input}
             onChange={(e) => setInput(e.target.value)}
+            onKeyDown={(e) => {
+                if (e.key=='Enter'){
+                    handleSendMessage()
+                }
+            }}
             />
             <button
             onClick={handleSendMessage}

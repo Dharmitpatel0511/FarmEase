@@ -39,6 +39,10 @@ app.use('/message', messageRouter)
 
 app.use('/product', productRouter)
 
+app.get('/viraldobariya', (req,res) => {
+    res.send(`${process.env.CORS_ORIGIN}`)
+})
+
 
 //creating server
 

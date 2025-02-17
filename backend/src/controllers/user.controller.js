@@ -1,7 +1,9 @@
 import User from '../models/user.model.js'
+import Product from '../models/product.model.js'
 import ApiError from '../utils/ApiError.js'
 import ApiResponse from '../utils/ApiResponse.js'
 import uploadOnCloudinary from '../utils/cloudinary.js'
+import fs from 'fs/promises'
 
 const generateAccessAndRefreshToken = async (userId) => {
     try {
@@ -21,8 +23,10 @@ const generateAccessAndRefreshToken = async (userId) => {
 
 const createUser = async (req, res) => {
     try {
-        const {username, email, password} = req.body
-        if (!username || !email || !password){
+        let {username, email, password, isFarmer} = req.body
+        isFarmer = isFarmer === 'true' ? true : false
+        console.log(typeof(isFarmer))
+        if (!username || !email || !password || (isFarmer!=true && isFarmer != false)){
             throw new  ApiError(400, 'Please fill in all fields.')
         }
     
@@ -40,6 +44,7 @@ const createUser = async (req, res) => {
             if(!avatar?.url){
                 throw new ApiError(400, 'Avatar upload failed')
             }
+            await fs.unlink(avatarLocalPath)
         }
     
     
@@ -47,7 +52,8 @@ const createUser = async (req, res) => {
             username, 
             email,
             avatar: avatar?.url || 'nothing',
-            password
+            password,
+            isFarmer
         })
     
         const createdUser = await User.findById(user._id).select("-password -refreshToken")
@@ -61,7 +67,7 @@ const createUser = async (req, res) => {
         const options = {
             httpOnly: true,
             secure: false,
-            maxAge: 48*60*60*1000,      //1 day
+            maxAge: 48*60*60*1000,      //2 day
             path: '/' 
         }
         console.log(createdUser)
@@ -102,7 +108,7 @@ const loginUser = async (req, res) => {
         const options = {
             httpOnly: true,
             secure: false,
-            maxAge: 3*24*60*60*1000,      //1 day,
+            maxAge: 3*24*60*60*1000,      //3 day,
             path: '/'
         }
         console.log('login end',accessToken, refreshToken,user)
@@ -115,7 +121,7 @@ const loginUser = async (req, res) => {
         )
     } catch (error) {
         console.log('incorrect password')
-        return res.status(500).json(error.message)
+        return res.status(401).json(error.message)
     }
 }
 
@@ -146,5 +152,25 @@ const logout = (req, res) => {
     )
 }
 
+const searchUser = async (req, res) => {
+    try {
+        let {username} = req.body
+        let user = await User.findOne({username})
+        let products = []
+        for (let productId of user.products){
+            let product = await Product.findById(productId)
+            products.push(product)
+        }
+        user.products = products
+        return res
+        .status(200)
+        .json({user})
+    } catch (error) {
+        return res
+        .status(401)
+        .json({message: error.message})
+    }
+}
 
-export {createUser, loginUser, currentUser, logout}
+
+export {createUser, loginUser, currentUser, logout,searchUser}

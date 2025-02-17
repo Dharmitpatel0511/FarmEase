@@ -10,6 +10,9 @@ import { login } from "./features/loginSlicer.js"
 import { ChatBox1, ChatBox2, ChatBox3, ChatBox4, ChatBox5, ChatBox6, ChatBox7, ChatBox8 } from "./components/Home/ChatBoxes.jsx"
 import {io} from 'socket.io-client'
 import CreateProduct from "./components/Products/CreateProduct.jsx"
+import ShowProducts from "./components/Products/ShowProducts.jsx"
+import AboutUs from "./components/Footer/AboutUs.jsx"
+import Profile from "./components/Header/Profile.jsx"
 
 
 export const socket = io(import.meta.env.VITE_BACKEND_API)
@@ -30,6 +33,9 @@ const router = createBrowserRouter(
           <Route path='/chatbox7' element={<ChatBox7/>}></Route>
           <Route path='/chatbox8' element={<ChatBox8/>}></Route>
           <Route path='/addproduct' element={<CreateProduct />}></Route>
+          <Route path='/showproducts' element={<ShowProducts/>}></Route>
+          <Route path='/aboutus' element={<AboutUs/>}></Route>
+          <Route path='/profile' element={<Profile/>}></Route>
         </Route>
       </>
     )
@@ -59,7 +65,7 @@ const App = () => {
               console.log("Redux has not logged-in user");
             }
           } catch (err) {
-            console.log("Axios error");
+            console.log("Axios error while fetching user");
             console.log(err.message);
           }
         };

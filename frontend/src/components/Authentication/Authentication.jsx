@@ -6,7 +6,7 @@ import {login, logout} from '../../features/loginSlicer.js'
 
 const Authentication = () => {
     const [slider, changeSlider] = useState('signin')
-    const [regForm, setRegForm] = useState({username: '',email: '', password: ''})
+    const [regForm, setRegForm] = useState({username: '',email: '', isFarmer: false, password: ''})
     const [logForm, setLogForm] = useState({username: '', password: ''})
     const [file, setFile] = useState(null)
     const navigate = useNavigate()
@@ -106,7 +106,7 @@ const Authentication = () => {
     }, [slider])
     return (
         <>
-            <div className = 'w-full h-[150vh] flex justify-center items-center'>
+            <div className = 'w-full h-[170vh] flex justify-center items-center'>
                 <div className = ' bg-emerald-50 overflow-hidden w-[40%] h-[70%] flex flex-col justify-center items-center rounded-xl border-gray-300 border-2'>
                     <div className = ' bg-emerald-100 border-b-2 border-b-gray-300 font-semibold text-lg px-28 pt-4 w-full h-[20%] flex justify-around items-center'>
                         <div id='signin' onClick={() => {changeSlider('signin')}} className='border-b-red-800 flex-1 cursor-pointer flex justify-center items-center transition duration-400'>
@@ -149,6 +149,13 @@ const Authentication = () => {
                             <div className="mb-4">
                                 <label htmlFor="avatar" className="block text-sm font-medium text-gray-700">Profile Picture (optional)</label>
                                 <input onChange={handleFileChange} name='avatar' type="file" id="avatar" className="w-full mt-1 p-2 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500"/>
+                            </div>
+                            <div className="mb-4">
+                                <p className = 'text-sm font-medium text-gray-700'>Role</p>
+                                <input onChange={handleRegChange} name='isFarmer' value={true} type="radio" id="farmer" className="border"/>
+                                <label htmlFor="farmer" className="text-sm font-medium text-gray-700 pl-2 pr-12">Farmer</label>
+                                <input onChange={handleRegChange} name='isFarmer' value={false} defaultChecked type="radio" id="consumer" className="border"/>
+                                <label htmlFor="consumer" className="text-sm font-medium text-gray-700 pl-2">Consumer</label>
                             </div>
                             <div className="mb-4">
                                 <label htmlFor="password1" className="block text-sm font-medium text-gray-700">Password *</label>

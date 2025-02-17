@@ -27,6 +27,10 @@ const userSchema = new mongoose.Schema({
         type: String,
         default: 'nothing'
     },
+    'isFarmer': {
+        type: Boolean,
+        required: true
+    },
     'refreshToken' : {
         type: String
     },
@@ -38,7 +42,17 @@ const userSchema = new mongoose.Schema({
             }
         ],
         default: []
+    }, 
+    'cart': {
+        type: [
+            {
+                product: { type: mongoose.Schema.Types.ObjectId, ref: "Product" },
+                quantity: { type: Number, default: 1 }
+            }
+        ],
+        default: []
     }
+
 }, {timestamps: true})
 
 

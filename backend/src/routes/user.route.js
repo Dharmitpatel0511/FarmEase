@@ -1,7 +1,7 @@
 import {Router} from 'express'
 import { fileURLToPath } from 'url'
 import path,{ dirname } from 'path'
-import {createUser, loginUser, currentUser, logout} from '../controllers/user.controller.js'
+import {createUser, loginUser, currentUser, logout, searchUser} from '../controllers/user.controller.js'
 import upload from '../middlewares/multer.middleware.js'
 import verifyJWT from '../middlewares/auth.middleware.js'
 
@@ -18,6 +18,8 @@ userRouter.route('/create').post(upload.single("avatar"), createUser)
 userRouter.route('/login').post(loginUser)
 
 userRouter.route('/getuser').get(verifyJWT, currentUser)
+
+userRouter.route('/searchuser').post(searchUser)
 
 userRouter.route('/logout').get(logout)
 

@@ -1,6 +1,13 @@
 import Community from './Community.jsx'
+import { useNavigate } from 'react-router-dom'
 
 function Home() {
+
+    const navigate = useNavigate()
+
+    const clickHandler = (e) => {
+        navigate(`/showproducts?search=${encodeURIComponent('')}&category=${encodeURIComponent(`${e.target.innerHTML}`)}&region=${encodeURIComponent('All')}`)
+    }
 
   return (
     <>
@@ -23,12 +30,12 @@ function Home() {
         <div class="container mx-auto">
             <h2 class="text-2xl font-bold text-center mb-6">Categories</h2>
             <div class="flex justify-center space-x-4 overflow-x-auto px-4">
-                <button class="bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-700">All</button>
-                <button class="bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-700">Fruits</button>
-                <button class="bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-700">Vegetables</button>
-                <button class="bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-700">Dairy Products</button>
-                <button class="bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-700">Farm Core</button>
-                <button class="bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-700">Dryfruits</button>
+                <button onClick = {clickHandler} class="bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-700">All</button>
+                <button  onClick = {clickHandler} class="bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-700">Fruits</button>
+                <button  onClick = {clickHandler} class="bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-700">Vegetables</button>
+                <button  onClick = {clickHandler} class="bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-700">Dairy Products</button>
+                <button onClick = {clickHandler} class="bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-700">Farm Core</button>
+                <button onClick = {clickHandler} class="bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-700">Dryfruits</button>
             </div>
         </div>
       </section>
