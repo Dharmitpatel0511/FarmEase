@@ -3,6 +3,7 @@ import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import {useSelector, useDispatch} from 'react-redux'
 import {login, logout} from '../../features/loginSlicer.js'
+import {Loader2} from 'lucide-react'
 
 const Authentication = () => {
     const [slider, changeSlider] = useState('signin')
@@ -11,6 +12,7 @@ const Authentication = () => {
     const [file, setFile] = useState(null)
     const navigate = useNavigate()
     const dispatch = useDispatch()
+    const [loading, setLoading] = useState(false)
 
     const handleFileChange = (e) => {
         const file = e.target.files[0]
@@ -29,6 +31,7 @@ const Authentication = () => {
 
     const registerHandler = async (e) => {
         e.preventDefault()
+        setLoading(true)
         const formdata = new FormData()
         Object.entries(regForm).forEach(([key, value]) => {
             formdata.append(key, value)
@@ -57,9 +60,13 @@ const Authentication = () => {
         .catch((err) => {
             console.log('error while registering user', err)
         })
+        .finally(() => {
+            setLoading(false)
+        })
 
     }
     const loginHandler = async (e) => {
+        setLoading(true)
         const loginData = {}
         Object.entries(logForm).forEach(([key, value]) => {
             loginData[key] = value
@@ -83,7 +90,7 @@ const Authentication = () => {
             console.log("failed to login with axios", err.message)
         })
         .finally(() => {
-            console.log('viral dobariya')
+            setLoading(false)
         })
 
     }
@@ -106,6 +113,12 @@ const Authentication = () => {
     }, [slider])
     return (
         <>
+            {loading && (
+                    <>
+                    <div className="z-[100] opacity-10 top-0 left-0 min-h-[100vh] min-w-[100vw] fixed bg-black" />
+                    <Loader2 className="z-[100] opacity top-[45vh] left-[45vw] min-h-[10vh] min-w-[10vw] fixed flex justify-center w-10 opacity-100 h-10 animate-spin text-gray-800 " />
+                    </>
+            )}
             <div className = 'w-full h-[170vh] flex justify-center items-center'>
                 <div className = ' bg-emerald-50 overflow-hidden w-[40%] h-[70%] flex flex-col justify-center items-center rounded-xl border-gray-300 border-2'>
                     <div className = ' bg-emerald-100 border-b-2 border-b-gray-300 font-semibold text-lg px-28 pt-4 w-full h-[20%] flex justify-around items-center'>

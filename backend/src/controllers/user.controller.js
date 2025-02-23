@@ -172,5 +172,27 @@ const searchUser = async (req, res) => {
     }
 }
 
+const filterUser = async (req, res) => {
+    try{
+        let search = req.body.search
+        if (!search){
+            throw new ApiError(401, "Give search string")
+        }
+        const users = await User.find({
+            $or: [
+              { username: { $regex: new RegExp(search, "i") } }, // Case-insensitive regex
+              { email: { $regex: new RegExp(search, "i") } }
+            ]
+          });
+        return res
+        .status(200)
+        .json({users})
+    } catch(err){
+        return res
+        .status(401)
+        .json({message: err.message})
+    }
+}
 
-export {createUser, loginUser, currentUser, logout,searchUser}
+
+export {createUser, loginUser, currentUser, logout, searchUser, filterUser}

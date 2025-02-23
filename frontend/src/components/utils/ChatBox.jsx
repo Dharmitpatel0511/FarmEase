@@ -3,6 +3,7 @@ import {useSelector} from 'react-redux'
 import { useNavigate } from "react-router-dom";
 import axios from 'axios'
 import {socket} from '../../App.jsx'
+import {Loader2} from 'lucide-react'
 
 const Chatbox = ({chatName, roomId}) => {
 
@@ -13,12 +14,14 @@ const Chatbox = ({chatName, roomId}) => {
     const isLogin = useSelector((state) => state.login.isLogin)
     const user = useSelector((state) => state.login.user) || {username: "viral"}
     const navigate = useNavigate()
+    const [loading, setLoading] = useState(true)
 
     const handleSendMessage = async (e) => {
         e.preventDefault()
-        await axios.post(`${import.meta.env.VITE_BACKEND_API}/message/put`, {sender: user.username, message: input, roomId:String(roomId)})
+        setLoading(true)
+        axios.post(`${import.meta.env.VITE_BACKEND_API}/message/put`, {sender: user.username, message: input, roomId:String(roomId)})
         .then((res) => {
-            if (res.status ==200){
+            if (res.status ===200){
                 if (input.trim()) {
                     setMessages([...messages, { message: input, sender: user.username }])
                 }
@@ -33,13 +36,17 @@ const Chatbox = ({chatName, roomId}) => {
         .catch((err) => {
             console.log(err)
         })
+        .finally(() => {
+            setLoading(false)
+        })
     };
 
     useEffect( () => {
         if (!isLogin){
             navigate('/')
         }
-         axios.post(`${import.meta.env.VITE_BACKEND_API}/message/get`, {roomId: roomId})
+        setLoading(true)
+        axios.post(`${import.meta.env.VITE_BACKEND_API}/message/get`, {roomId: roomId})
         .then((res) => {
             if (res.status==200){
                 setMessages(res.data.data)
@@ -48,9 +55,11 @@ const Chatbox = ({chatName, roomId}) => {
             else{
                 console.log('failed to fetch messages')
             }
+            setLoading(false)
         })
         .catch((err) => {
             console.log(err)
+            setLoading(false)
         })
 
         console.log(socket)
@@ -72,6 +81,15 @@ const Chatbox = ({chatName, roomId}) => {
     }, [messages])
 
     return (
+
+        <>
+
+        {loading && (
+            <>
+            <div className="z-[100] opacity-10 top-0 left-0 min-h-[100vh] min-w-[100vw] fixed bg-black" />
+            <Loader2 className="z-[100] opacity top-[45vh] left-[45vw] min-h-[10vh] min-w-[10vw] fixed flex justify-center w-10 opacity-100 h-10 animate-spin text-gray-800 " />
+            </>
+        )}
 
         <div className="flex flex-col w-full max-w-md mx-auto border rounded-lg shadow-md bg-white">
         <div ref={ref2}></div>
@@ -122,8 +140,10 @@ const Chatbox = ({chatName, roomId}) => {
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={(e) => {
-                if (e.key=='Enter'){
-                    handleSendMessage()
+                console.log('key pressed', e.key)
+                if (e.key==='Enter'){
+                    e.preventDefault();
+                    handleSendMessage(e)
                 }
             }}
             />
@@ -135,6 +155,8 @@ const Chatbox = ({chatName, roomId}) => {
             </button>
         </div>
         </div>
+        
+        </>
 
     );
 };

@@ -1,7 +1,7 @@
 import {Router} from 'express'
 import { fileURLToPath } from 'url'
 import path,{ dirname } from 'path'
-import {createUser, loginUser, currentUser, logout, searchUser} from '../controllers/user.controller.js'
+import {createUser, loginUser, currentUser, logout, searchUser, filterUser} from '../controllers/user.controller.js'
 import upload from '../middlewares/multer.middleware.js'
 import verifyJWT from '../middlewares/auth.middleware.js'
 
@@ -22,5 +22,7 @@ userRouter.route('/getuser').get(verifyJWT, currentUser)
 userRouter.route('/searchuser').post(searchUser)
 
 userRouter.route('/logout').get(logout)
+
+userRouter.route('/filteruser').post(filterUser)
 
 export default userRouter

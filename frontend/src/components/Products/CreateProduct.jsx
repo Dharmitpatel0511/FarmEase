@@ -1,12 +1,14 @@
 import {useState} from 'react'
 import axios from 'axios'
 import {useSelector} from 'react-redux'
+import { Loader2 } from 'lucide-react'
 
 
 const CreateProduct = () => {
     const [product, setProduct] = useState({})
     const user = useSelector((state) => state.login.user)
     const [photo, setPhoto] = useState(null)
+    const [loading, setLoading] = useState(false)
 
     const handleProductChange = (e) => {
         setProduct({...product, [e.target.name]: e.target.value})
@@ -18,6 +20,7 @@ const CreateProduct = () => {
 
     const submitHandler = (e) => {
         e.preventDefault()
+        setLoading(true)
         const data = new FormData()
         Object.entries(product).forEach(([key, value]) => {
             data.append(key, value)
@@ -45,15 +48,23 @@ const CreateProduct = () => {
             setPhoto(null)
             setProduct({})
             e.target.reset()
+            setLoading(false)
         })
         .catch((err) => {
             console.log(err)
+            setLoading(false)
         })
         
     }
     
     return (
         <>
+            {loading && (
+                    <>
+                    <div className="z-[100] opacity-10 top-0 left-0 min-h-[100vh] min-w-[100vw] fixed bg-black" />
+                    <Loader2 className="z-[100] opacity top-[45vh] left-[45vw] min-h-[10vh] min-w-[10vw] fixed flex justify-center w-10 opacity-100 h-10 animate-spin text-gray-800 " />
+                    </>
+                )}
             <div class="min-h-screen bg-gray-100 flex items-center justify-center py-10">
                 <div class="bg-white shadow-lg rounded-lg p-6 w-full max-w-2xl">
                     <h2 class="text-2xl font-bold text-gray-800 mb-6">Sell Your Product</h2>

@@ -89,7 +89,11 @@ const Header = () => {
                             <button onClick = {searchHandler}><i className="fa fa-search"></i></button>
                         </div>
                         <div className="flex-[7_1_0%] flex items-center justify-center">
-                            <input type="text" value={search} onChange={(e) => setSearch(e.target.value)} name="searchbox" id="searchbox" placeholder="search products" className="pl-3 h-[50%] w-full border border-gray-300 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-green-500" />
+                            <input type="text" value={search} onKeyDown={(e) => {
+                                if (e.key === 'Enter') {
+                                    searchHandler(e)
+                                }
+                            }} onChange={(e) => setSearch(e.target.value)} name="searchbox" id="searchbox" placeholder="search products" className="pl-3 h-[50%] w-full border border-gray-300 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-green-500" />
                         </div>
                     </div>
                     <div className="flex flex-[3_1_0%] h-full justify-center items-center">
@@ -108,7 +112,7 @@ const Header = () => {
                             <div className="relative" ref={menuRef}>
                                 <div
                                 onClick={() => setIsProfileOpen((v) => !v)}
-                                className="cursor-pointer flex justify-center items-center"
+                                className=" min-w-[8vw] cursor-pointer flex justify-center items-center"
                                 >
                                 <img
                                     src={user.avatar}
@@ -159,8 +163,8 @@ const Header = () => {
                     </div>
 
                     <div className="flex flex-[2_1_0%] h-full justify-center items-center">
-                        <div className="cursor-pointer px-4 bg-green-950 text-white rounded-full h-[70%] flex justify-center items-center">
-                            <img onClick={(e) => setIsDotsOpen(true)} className="h-[70%] object-fill" src="https://img.icons8.com/?size=100&id=21622&format=png&color=FFFFFF" />
+                        <div onClick={(e) => setIsDotsOpen(true)} className="cursor-pointer px-4 bg-green-950 text-white rounded-full h-[70%] flex justify-center items-center">
+                            <img className="h-[70%] object-fill" src="https://img.icons8.com/?size=100&id=21622&format=png&color=FFFFFF" />
                         </div>
                             <div
                                 className={`z-10 w-36 absolute right-12 mt-56 bg-green-900 border-green-950 border-2 rounded-xl shadow-md transition-all 
@@ -172,9 +176,11 @@ const Header = () => {
                                 >
                                     ×
                                 </div>
+                                <NavLink to='/usersearch'>
                                 <div className="cursor-pointer text-white px-6 py-2 border-b border-amber-950 hover:bg-green-800">
-                                    Coming...
+                                    Search User
                                 </div>
+                                </NavLink>
                                 <div className="cursor-pointer text-white px-6 py-2 border-b border-amber-950 hover:bg-green-800">
                                     Coming...
                                 </div>
