@@ -1,6 +1,6 @@
 import Community from './Community.jsx'
 import { useNavigate } from 'react-router-dom'
-
+import Carousel from './Carousel.jsx'
 function Home() {
 
     const navigate = useNavigate()
@@ -13,7 +13,7 @@ function Home() {
     <>
 
       {/* <!-- Ads Section --> */}
-      <section class="bg-yellow-300 py-6">
+      {/* <section class="bg-yellow-300 py-6">
         <div class="container mx-auto text-center">
             <h2 class="text-xl font-bold mb-4">Fair Prices, Zero Middlemen</h2>
             <div class="relative w-full max-w-3xl mx-auto">
@@ -23,7 +23,9 @@ function Home() {
                 <p class="mt-4">Empowering farmers and connecting them directly to consumers.</p>
             </div>
         </div>
-      </section>
+      </section> */}
+
+      <Carousel />
 
       {/* <!-- Categories Section --> */}
       <section id="categories" class="py-8 bg-gray-100">
