@@ -16,6 +16,9 @@ function Carousel() {
     },
   ];
 
+
+   
+
   const [slide, setSlide] = useState(0);
 
   useEffect(() => {
