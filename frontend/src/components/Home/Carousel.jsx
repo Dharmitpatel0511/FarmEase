@@ -16,6 +16,7 @@ function Carousel() {
     },
   ];
 
+  // temp testing 
 
   const [slide, setSlide] = useState(0);
 
