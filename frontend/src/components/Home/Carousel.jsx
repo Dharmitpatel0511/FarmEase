@@ -29,7 +29,7 @@ function Carousel() {
   }, [sliders.length]); // Depend on sliders.length, not sliders itself.
 
   return (
-    <div className="carousel-slide flex justify-center align-middle relative w-full">
+    <div className="carousel-slide flex justify-center align-middle relative w-full">ī
       <img src={sliders[slide].src} alt={sliders[slide].alt} className="w-full h-auto" />
     </div>
   );
