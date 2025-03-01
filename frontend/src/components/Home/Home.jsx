@@ -12,18 +12,7 @@ function Home() {
   return (
     <>
 
-      {/* <!-- Ads Section --> */}
-      {/* <section class="bg-yellow-300 py-6">
-        <div class="container mx-auto text-center">
-            <h2 class="text-xl font-bold mb-4">Fair Prices, Zero Middlemen</h2>
-            <div class="relative w-full max-w-3xl mx-auto">
-                <div class="relative h-64 overflow-hidden rounded-lg">
-                    <img src='https://images.squarespace-cdn.com/content/v1/62e7a92f066fa3730dcd4604/47dbf6b5-0be9-435c-82bd-7fbfb2806791/v2-685op-79iel.jpg' />
-                </div>
-                <p class="mt-4">Empowering farmers and connecting them directly to consumers.</p>
-            </div>
-        </div>
-      </section> */}
+     
 
       <Carousel />
 

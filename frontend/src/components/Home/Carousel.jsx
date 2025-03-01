@@ -14,6 +14,10 @@ function Carousel() {
       src: "https://ik.imagekit.io/44y3v51cp/kisankonnect/Images/BannerImage/20250120092708Gajar%20Halwa%20Web%20Story.jpg?tr=f-webp",
       alt: "img 3",
     },
+    {
+      src: "https://ik.imagekit.io/44y3v51cp/kisankonnect/Images/BannerImage/20250120092249Story Banner_1920_600 (1).png?tr=f-webp",
+      alt: "img 4",
+    },
   ];
 
   // temp testing 
@@ -29,8 +33,8 @@ function Carousel() {
   }, [sliders.length]); // Depend on sliders.length, not sliders itself.
 
   return (
-    <div className="carousel-slide flex justify-center align-middle relative w-full">ī
-      <img src={sliders[slide].src} alt={sliders[slide].alt} className="w-full h-auto" />
+    <div className="carousel-slide flex justify-center align-middle relative w-full p-2">
+      <img src={sliders[slide].src} alt={sliders[slide].alt} className="w-full h-auto  rounded-2xl shadow-lg" />
     </div>
   );
 }
