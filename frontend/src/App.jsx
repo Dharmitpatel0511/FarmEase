@@ -16,7 +16,6 @@
 // import UserSearch from "./components/Header/UserSearch.jsx"
 // import Chat from "./components/Extras/Chat.jsx"
 
-
 // export const socket = io(import.meta.env.VITE_BACKEND_API)
 
 // const router = createBrowserRouter(
@@ -45,8 +44,6 @@
 //     )
 // )
 
-
-
 // const App = () => {
 //     console.log(import.meta.env)
 //     const dispatch = useDispatch()
@@ -56,7 +53,7 @@
 //             const res = await axios.get(`${import.meta.env.VITE_BACKEND_API}/user/getuser`, {
 //               withCredentials: true,
 //             });
-            
+
 //             if (res.status < 400) {
 //               console.log("Redux has logged-in user");
 //               console.log(`${import.meta.env.VITE_BACKEND_API}/user/getuser`)
@@ -64,7 +61,7 @@
 //               if (res.data.data){
 //                 dispatch(login(res.data.data))
 //               }
-              
+
 //             } else {
 //               console.log("Redux has not logged-in user");
 //             }
@@ -73,10 +70,9 @@
 //             console.log(err.message);
 //           }
 //         })();
-      
+
 //         // fetchUser(); // Calling the async function
 //       // }, []);
-
 
 //     return (
 //         <>
@@ -85,12 +81,14 @@
 //     )
 // }
 
-
 // export default App
 
-
-
-import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from "react-router-dom";
+import {
+  createBrowserRouter,
+  createRoutesFromElements,
+  Route,
+  RouterProvider,
+} from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
@@ -99,7 +97,16 @@ import Layout from "./Layout.jsx";
 import Home from "./components/Home/Home.jsx";
 import Cart from "./components/Cart/Cart.jsx";
 import Authentication from "./components/Authentication/Authentication.jsx";
-import { ChatBox1, ChatBox2, ChatBox3, ChatBox4, ChatBox5, ChatBox6, ChatBox7, ChatBox8 } from "./components/Home/ChatBoxes.jsx";
+import {
+  ChatBox1,
+  ChatBox2,
+  ChatBox3,
+  ChatBox4,
+  ChatBox5,
+  ChatBox6,
+  ChatBox7,
+  ChatBox8,
+} from "./components/Home/ChatBoxes.jsx";
 import { io } from "socket.io-client";
 import CreateProduct from "./components/Products/CreateProduct.jsx";
 import ShowProducts from "./components/Products/ShowProducts.jsx";
@@ -107,6 +114,7 @@ import AboutUs from "./components/Footer/AboutUs.jsx";
 import Profile from "./components/Header/Profile.jsx";
 import UserSearch from "./components/Header/UserSearch.jsx";
 import Chat from "./components/Extras/Chat.jsx";
+import { Loader2 } from "lucide-react";
 
 export const socket = io(import.meta.env.VITE_BACKEND_API);
 
@@ -141,9 +149,12 @@ const App = () => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const res = await axios.get(`${import.meta.env.VITE_BACKEND_API}/user/getuser`, {
-          withCredentials: true,
-        });
+        const res = await axios.get(
+          `${import.meta.env.VITE_BACKEND_API}/user/getuser`,
+          {
+            withCredentials: true,
+          }
+        );
 
         if (res.status < 400 && res.data.data) {
           dispatch(login(res.data.data));
@@ -155,11 +166,16 @@ const App = () => {
       }
     };
 
-    fetchUser()
+    fetchUser();
   }, [dispatch]);
 
   if (loading) {
-    return <div className="flex justify-center items-center h-screen text-lg font-bold">Loading...</div>;
+    return (
+      <>
+        <div className="z-[100] opacity-10 top-0 left-0 min-h-[100vh] min-w-[100vw] fixed bg-black" />
+        <Loader2 className="z-[100] opacity top-[45vh] left-[45vw] min-h-[10vh] min-w-[10vw] fixed flex justify-center w-10 opacity-100 h-10 animate-spin text-gray-800 " />
+      </>
+    );
   }
 
   return <RouterProvider router={router} />;
