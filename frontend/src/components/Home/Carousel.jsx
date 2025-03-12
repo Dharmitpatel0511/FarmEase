@@ -16,12 +16,6 @@ function Carousel() {
       description: "Naturally grown vegetables for your family"
     },
     {
-      src: "https://ik.imagekit.io/44y3v51cp/kisankonnect/Images/BannerImage/20250120092708Gajar%20Halwa%20Web%20Story.jpg?tr=f-webp",
-      alt: "Seasonal Specials",
-      title: "Seasonal Offerings",
-      description: "Get the best of every season"
-    },
-    {
       src: "https://ik.imagekit.io/44y3v51cp/kisankonnect/Images/BannerImage/20250120092249Story Banner_1920_600 (1).png?tr=f-webp",
       alt: "Premium Quality",
       title: "Premium Quality",
