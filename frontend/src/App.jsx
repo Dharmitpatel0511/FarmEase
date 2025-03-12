@@ -115,29 +115,35 @@ import Profile from "./components/Header/Profile.jsx";
 import UserSearch from "./components/Header/UserSearch.jsx";
 import Chat from "./components/Extras/Chat.jsx";
 import { Loader2 } from "lucide-react";
-
+import PrivateRoutes from "./components/utils/PrivateRoutes.jsx";
 export const socket = io(import.meta.env.VITE_BACKEND_API);
+
+console.log(location.pathname);
+
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<Layout />}>
       <Route index element={<Home />} />
-      <Route path="/cart" element={<Cart />} />
       <Route path="/auth" element={<Authentication />} />
-      <Route path="/chatbox1" element={<ChatBox1 />} />
-      <Route path="/chatbox2" element={<ChatBox2 />} />
-      <Route path="/chatbox3" element={<ChatBox3 />} />
-      <Route path="/chatbox4" element={<ChatBox4 />} />
-      <Route path="/chatbox5" element={<ChatBox5 />} />
-      <Route path="/chatbox6" element={<ChatBox6 />} />
-      <Route path="/chatbox7" element={<ChatBox7 />} />
-      <Route path="/chatbox8" element={<ChatBox8 />} />
-      <Route path="/addproduct" element={<CreateProduct />} />
-      <Route path="/showproducts" element={<ShowProducts />} />
       <Route path="/aboutus" element={<AboutUs />} />
-      <Route path="/profile" element={<Profile />} />
-      <Route path="/usersearch" element={<UserSearch />} />
-      <Route path="/chat" element={<Chat />} />
+
+      <Route element={<PrivateRoutes />}> 
+        <Route path="/cart" element={<Cart />} />
+        <Route path="/chatbox1" element={<ChatBox1 />} />
+        <Route path="/chatbox2" element={<ChatBox2 />} />
+        <Route path="/chatbox3" element={<ChatBox3 />} />
+        <Route path="/chatbox4" element={<ChatBox4 />} />
+        <Route path="/chatbox5" element={<ChatBox5 />} />
+        <Route path="/chatbox6" element={<ChatBox6 />} />
+        <Route path="/chatbox7" element={<ChatBox7 />} />
+        <Route path="/chatbox8" element={<ChatBox8 />} />
+        <Route path="/addproduct" element={<CreateProduct />} />
+        <Route path="/showproducts" element={<ShowProducts />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/usersearch" element={<UserSearch />} />
+      </Route>
+      {/* <Route path="/chat" element={<Chat />} /> */}
     </Route>
   )
 );

@@ -3,9 +3,9 @@ import {NavLink,Link, useNavigate} from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import {useState, useRef, useEffect} from 'react'
 import {useDispatch} from 'react-redux'
+import { X , Menu  } from 'lucide-react';
 import {logout} from '../../features/loginSlicer.js'
 import axios from 'axios'
-// import tempimg from "../../assets/aboutus.jpg"
 const Header = () => {
     const isLogin = useSelector((state) => state.login.isLogin)
     const user = useSelector((state) => state.login.user)
@@ -28,6 +28,7 @@ const Header = () => {
 
     
     useEffect(() => {
+        
         const handleClickOutside = (event) => {
             if (menuRef.current && !menuRef.current.contains(event.target)) {
                 
@@ -48,6 +49,7 @@ const Header = () => {
     const logoutHandler = () => {
         setIsProfileOpen(false)
         dispatch(logout())
+        navigate("/");
         axios.get(`${import.meta.env.VITE_BACKEND_API}/user/logout`, {
             withCredentials: true
         })
@@ -265,10 +267,10 @@ const Header = () => {
                         <div onClick={(e) => setIsDotsOpen(!isDotsOpen)} className="dots-button cursor-pointer px-4 bg-green-950 text-white rounded-full w-14 h-[70%] flex justify-center items-center">
                            {
                                 isDotsOpen ?(
-                                    <span className="text-2xl font-bold">×</span>
+                                    <X />
                                 ) :(
                                     
-                                    <img className="h-[70%] object-fill" src="https://img.icons8.com/?size=100&id=21622&format=png&color=FFFFFF" />
+                                    <Menu />
                                 )
                            }
                            
@@ -292,8 +294,7 @@ const Header = () => {
                     <NavLink to="/" className="flex justify-center items-center flex-[1_1_0%] h-full">
                         <div className="flex justify-center items-center h-full">Home</div>
                     </NavLink>
-                    <div onClick={onAboutUs} className="cursor-pointer flex justify-center items-center flex-[1_1_0%] h-full">About Us</div>
-                    <div className="flex justify-center items-center flex-[1_1_0%] h-full">
+                   <div className="flex justify-center items-center flex-[1_1_0%] h-full">
                         <div className="flex flex-col items-center justify-center h-full">
                             
                             <select value={category} onChange = {(e) => {
@@ -332,6 +333,7 @@ const Header = () => {
                             </select>
                         </div>
                     </div>
+                    <div onClick={onAboutUs} className="cursor-pointer flex justify-center items-center flex-[1_1_0%] h-full">About Us</div>
                     <div onClick = {onContactUs} className="cursor-pointer flex justify-center items-center flex-[1_1_0%] h-full">Contact Us</div>
                 </div>
 

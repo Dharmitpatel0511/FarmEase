@@ -1,36 +1,37 @@
-import fb from '../../assets/fb.png'
-import insta from '../../assets/insta.jpeg'
-import x from '../../assets/x.png'
+import { Facebook, Instagram, Twitter } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 
 const Footer = () => {
     const navigate = useNavigate();
 
     return (
-        <footer id="footer" className="bg-green-800 text-white py-8">
-            <div className="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 px-6">
-                <div>
-                    <h2 className="text-2xl font-bold mb-4">FarmEase</h2>
-                    <p className="text-sm leading-relaxed">
+        <footer id="footer" className="bg-gradient-to-br from-green-800 to-green-900 text-white py-12">
+            <div className="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-12 px-6">
+                {/* Brand Section */}
+                <div className="space-y-4">
+                    <h2 className="text-3xl font-bold">FarmEase</h2>
+                    <p className="text-green-100/90 leading-relaxed">
                         Empowering farmers and connecting them directly to consumers.
                         Fair prices, zero middlemen.
                     </p>
                 </div>
 
+                {/* Quick Links */}
                 <div>
-                    <h3 className="text-xl font-semibold mb-4">Quick Links</h3>
-                    <ul className="space-y-2">
+                    <h3 className="text-xl font-semibold mb-6">Quick Links</h3>
+                    <ul className="space-y-3">
                         <li 
-                            className="cursor-pointer hover:text-gray-300 transition" 
+                            className="cursor-pointer hover:text-green-300 transition-colors duration-200 flex items-center gap-2" 
                             onClick={() => {
                                 navigate('/aboutus');
                                 document.querySelector('#header')?.scrollIntoView({ behavior: 'smooth' });
                             }}
                         >
+                            <span className="h-1 w-1 bg-green-400 rounded-full"></span>
                             About Us
                         </li>
                         <li 
-                            className="cursor-pointer hover:text-gray-300 transition" 
+                            className="cursor-pointer hover:text-green-300 transition-colors duration-200 flex items-center gap-2" 
                             onClick={() => {
                                 navigate('/');
                                 setTimeout(() => {
@@ -38,10 +39,11 @@ const Footer = () => {
                                 }, 100);
                             }}
                         >
+                            <span className="h-1 w-1 bg-green-400 rounded-full"></span>
                             Categories
                         </li>
                         <li 
-                            className="cursor-pointer hover:text-gray-300 transition" 
+                            className="cursor-pointer hover:text-green-300 transition-colors duration-200 flex items-center gap-2" 
                             onClick={() => {
                                 navigate('/');
                                 setTimeout(() => {
@@ -49,10 +51,11 @@ const Footer = () => {
                                 }, 100);
                             }}
                         >
+                            <span className="h-1 w-1 bg-green-400 rounded-full"></span>
                             Communities
                         </li>
                         <li 
-                            className="cursor-pointer hover:text-gray-300 transition" 
+                            className="cursor-pointer hover:text-green-300 transition-colors duration-200 flex items-center gap-2" 
                             onClick={() => {
                                 navigate(`/showproducts?search=&category=All&region=All`);
                                 setTimeout(() => {
@@ -60,34 +63,61 @@ const Footer = () => {
                                 }, 100);
                             }}
                         >
+                            <span className="h-1 w-1 bg-green-400 rounded-full"></span>
                             Products
                         </li>
                     </ul>
                 </div>
 
-                <div>
-                    <h3 className="text-xl font-semibold mb-4">Contact Us</h3>
-                    <p className="text-sm mb-2">📍 <span className="font-medium">Address:</span> FarmEase HQ, Rural India</p>
-                    <p className="text-sm mb-2">📞 <span className="font-medium">Phone:</span> +91-6355121720</p>
-                    <p className="text-sm mb-4">📧 <span className="font-medium">Email:</span> farmease.business@gmail.com</p>
+                {/* Contact Section */}
+                <div className="space-y-6">
+                    <h3 className="text-xl font-semibold">Contact Us</h3>
+                    <div className="space-y-4">
+                        <p className="flex items-start gap-3 text-green-100/90">
+                            <span className="text-lg">📍</span>
+                            <span>FarmEase HQ, Rural India</span>
+                        </p>
+                        <p className="flex items-start gap-3 text-green-100/90">
+                            <span className="text-lg">📞</span>
+                            <span>+91-6355121720</span>
+                        </p>
+                        <p className="flex items-start gap-3 text-green-100/90">
+                            <span className="text-lg">📧</span>
+                            <span>farmease.business@gmail.com</span>
+                        </p>
+                    </div>
 
-                    <div className="flex space-x-4">
-                        <a href="#" className="hover:text-gray-300 flex gap-2 items-center transition">
-                            <img src={fb} alt="Facebook" className="h-5 w-5" /> Facebook
-                        </a>
-                        <a href="#" className="hover:text-gray-300 flex gap-2 items-center transition">
-                            <img src={x} alt="X" className="h-5 w-5" /> X
-                        </a>
-                        <a href="#" className="hover:text-gray-300 flex gap-2 items-center transition">
-                            <img src={insta} alt="Instagram" className="h-5 w-5" /> Instagram
-                        </a>
+                    {/* Social Media Links */}
+                    <div className="pt-4">
+                        <p className="text-sm font-medium mb-4">Follow us on social media</p>
+                        <div className="flex gap-6">
+                            <a 
+                                href="#" 
+                                className="hover:text-green-300 transition-colors duration-200"
+                                aria-label="Facebook"
+                            >
+                                <Facebook className="w-6 h-6" />
+                            </a>
+                            <a 
+                                href="#" 
+                                className="hover:text-green-300 transition-colors duration-200"
+                                aria-label="Twitter"
+                            >
+                                <Twitter className="w-6 h-6" />
+                            </a>
+                            <a 
+                                href="#" 
+                                className="hover:text-green-300 transition-colors duration-200"
+                                aria-label="Instagram"
+                            >
+                                <Instagram className="w-6 h-6" />
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <div className="mt-8 border-t border-green-600 pt-4 text-center text-sm">
-                © 2025 <span className="font-semibold">FarmEase</span>. All rights reserved.
-            </div>
+            
         </footer>
     );
 };
