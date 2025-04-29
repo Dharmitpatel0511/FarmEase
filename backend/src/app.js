@@ -8,8 +8,9 @@ import { createServer } from 'http'
 import {Server} from 'socket.io'
 import messageRouter from './routes/message.route.js'
 import chatSocket from './sockets/chatSocket.js'
-import productRouter from './routes/product.route.js'
+import productRoutes from './routes/product.routes.js'
 import chatRouter from './routes/chat.route.js'
+import dashboardRoutes from './routes/dashboard.routes.js'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
@@ -38,9 +39,11 @@ app.use('/user',userRouter)
 
 app.use('/message', messageRouter)
 
-app.use('/product', productRouter)
+app.use('/product', productRoutes)
 
 app.use('/chat', chatRouter)
+
+app.use('/dashboard', dashboardRoutes)
 
 app.get('/viraldobariya', (req,res) => {
     res.send(`${process.env.CORS_ORIGIN}`)

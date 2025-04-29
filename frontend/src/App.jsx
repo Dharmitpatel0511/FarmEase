@@ -116,10 +116,11 @@ import UserSearch from "./components/Header/UserSearch.jsx";
 import Chat from "./components/Extras/Chat.jsx";
 import { Loader2 } from "lucide-react";
 import PrivateRoutes from "./components/utils/PrivateRoutes.jsx";
+import Dashboard from "./components/Dashboard/Dashboard.jsx";
+
 export const socket = io(import.meta.env.VITE_BACKEND_API);
 
 console.log(location.pathname);
-
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -142,6 +143,7 @@ const router = createBrowserRouter(
         <Route path="/showproducts" element={<ShowProducts />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/usersearch" element={<UserSearch />} />
+        <Route path="/dashboard" element={<Dashboard />} />
       </Route>
       {/* <Route path="/chat" element={<Chat />} /> */}
     </Route>

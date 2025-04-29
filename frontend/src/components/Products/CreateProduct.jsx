@@ -1,7 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
-import { Loader2, Upload, IndianRupee, Tags, MapPin } from "lucide-react";
+import { Loader2, Upload, IndianRupee, Tags, MapPin, Scale } from "lucide-react";
 import { Navigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import {useNavigate} from "react-router-dom"
@@ -13,15 +13,16 @@ const CreateProduct = () => {
   const [loading, setLoading] = useState(false);
   const [imagePreview, setImagePreview] = useState(null);
   const navi = new useNavigate();
+
   const handleProductChange = (e) => {
-    setProduct({ ...product, [e.target.name]: e.target.value });
+    const value = e.target.type === 'number' ? parseFloat(e.target.value) : e.target.value;
+    setProduct({ ...product, [e.target.name]: value });
   };
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     setPhoto(file);
     
-    // Create preview URL for the image
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
@@ -37,7 +38,15 @@ const CreateProduct = () => {
     e.preventDefault();
     setLoading(true);
     const data = new FormData();
-    Object.entries(product).forEach(([key, value]) => {
+    
+    // Calculate pricePerUnit based on price and quantityUnit
+    const pricePerUnit = product.price;
+    const formData = {
+      ...product,
+      pricePerUnit
+    };
+
+    Object.entries(formData).forEach(([key, value]) => {
       data.append(key, value);
     });
 
@@ -46,10 +55,9 @@ const CreateProduct = () => {
     }
 
     data.append("owner", user._id);
-    // navi("/");
-    setImagePreview(null)
+    
     axios
-      .post(`${import.meta.env.VITE_BACKEND_API}/product/createproduct`, data, {
+      .post(`${import.meta.env.VITE_BACKEND_API}/product/create`, data, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -58,6 +66,7 @@ const CreateProduct = () => {
       .then((res) => {
         if (res.status == 200) {
           console.log("product created successfully");
+          navi(`/profile?username=${user.username}`);
         } else {
           console.log("error while creating product");
         }
@@ -65,6 +74,7 @@ const CreateProduct = () => {
         setProduct({});
         e.target.reset();
         setLoading(false);
+        setImagePreview(null);
       })
       .catch((err) => {
         console.log(err);
@@ -163,16 +173,18 @@ const CreateProduct = () => {
                 </div>
               </div>
 
-              {/* Price and Category in Grid */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* Price, Unit and Available Quantity in Grid */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div>
-                  <label className="text-sm font-medium text-gray-700">Price (₹)</label>
+                  <label className="text-sm font-medium text-gray-700">Price per Unit (₹)</label>
                   <div className="mt-2 relative">
                     <IndianRupee className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
                     <input
                       name="price"
                       onChange={handleProductChange}
                       type="number"
+                      step="0.01"
+                      min="0"
                       className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200
                                focus:ring-2 focus:ring-green-500 focus:border-transparent"
                       placeholder="0.00"
@@ -182,6 +194,51 @@ const CreateProduct = () => {
                 </div>
 
                 <div>
+                  <label className="text-sm font-medium text-gray-700">Quantity Unit</label>
+                  <div className="mt-2 relative">
+                    <Scale className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
+                    <select
+                      name="quantityUnit"
+                      onChange={handleProductChange}
+                      className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200
+                               focus:ring-2 focus:ring-green-500 focus:border-transparent
+                               appearance-none bg-white"
+                      required
+                    >
+                      <option value="">Select Unit</option>
+                      <option value="kg">Kilogram (kg)</option>
+                      <option value="g">Gram (g)</option>
+                      <option value="piece">Piece</option>
+                      <option value="dozen">Dozen</option>
+                      <option value="liter">Liter</option>
+                      <option value="ml">Milliliter (ml)</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div>
+                  <label className="text-sm font-medium text-gray-700">Available Quantity</label>
+                  <div className="mt-2 relative">
+                    <Scale className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
+                    <input
+                      name="availableQuantity"
+                      onChange={handleProductChange}
+                      type="number"
+                      min="0"
+                      step="0.01"
+                      className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200
+                               focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                      placeholder="Available quantity"
+                      required
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* Category & Region Side by Side */}
+              <div className="flex flex-col md:flex-row gap-6">
+                {/* Category */}
+                <div className="flex-1">
                   <label className="text-sm font-medium text-gray-700">Category</label>
                   <div className="mt-2 relative">
                     <Tags className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
@@ -202,6 +259,29 @@ const CreateProduct = () => {
                     </select>
                   </div>
                 </div>
+                {/* Region */}
+                <div className="flex-1">
+                  <label className="text-sm font-medium text-gray-700">Region</label>
+                  <div className="mt-2 relative">
+                    <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
+                    <select
+                      name="region"
+                      onChange={handleProductChange}
+                      className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200
+                               focus:ring-2 focus:ring-green-500 focus:border-transparent
+                               appearance-none bg-white"
+                      required
+                    >
+                      <option value="">Select Region</option>
+                      <option value="Northern India">Northern India</option>
+                      <option value="Southern India">Southern India</option>
+                      <option value="Eastern India">Eastern India</option>
+                      <option value="Western India">Western India</option>
+                      <option value="Central India">Central India</option>
+                      <option value="Northeastern India">Northeastern India</option>
+                    </select>
+                  </div>
+                </div>
               </div>
 
               {/* Description */}
@@ -217,30 +297,6 @@ const CreateProduct = () => {
                   placeholder="Describe your product in detail..."
                   required
                 ></textarea>
-              </div>
-
-              {/* Region */}
-              <div>
-                <label className="text-sm font-medium text-gray-700">Region</label>
-                <div className="mt-2 relative">
-                  <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
-                  <select
-                    name="region"
-                    onChange={handleProductChange}
-                    className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200
-                             focus:ring-2 focus:ring-green-500 focus:border-transparent
-                             appearance-none bg-white"
-                    required
-                  >
-                    <option value="">Select Region</option>
-                    <option value="Northern India">Northern India</option>
-                    <option value="Southern India">Southern India</option>
-                    <option value="Eastern India">Eastern India</option>
-                    <option value="Western India">Western India</option>
-                    <option value="Central India">Central India</option>
-                    <option value="Northeastern India">Northeastern India</option>
-                  </select>
-                </div>
               </div>
 
               {/* Submit Button */}

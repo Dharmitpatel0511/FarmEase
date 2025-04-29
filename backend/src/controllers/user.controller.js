@@ -93,7 +93,7 @@ const loginUser = async (req, res) => {
         }
         const user = await User.findOne({
             $or: [{username}, {email}]
-        })
+        }).populate('cart.product')
     
         if(!user){
             throw new ApiError(400, "username or email is not found")
@@ -111,13 +111,19 @@ const loginUser = async (req, res) => {
             maxAge: 3*24*60*60*1000,      //3 day,
             path: '/'
         }
-        console.log('login end',accessToken, refreshToken,user)
+
+        // Calculate cart count
+        const cartCount = user.cart.reduce((total, item) => total + item.quantity, 0);
+        const userData = user.toObject();
+        userData.cartCount = cartCount;
+
+        console.log('login end',accessToken, refreshToken, userData)
         return res
         .status(200)
         .cookie("accessToken", accessToken, options)
         .cookie("refreshToken", refreshToken, options)
         .json(
-            new ApiResponse(200, user,  "login successfully")
+            new ApiResponse(200, userData,  "login successfully")
         )
     } catch (error) {
         console.log('incorrect password')
@@ -155,13 +161,7 @@ const logout = (req, res) => {
 const searchUser = async (req, res) => {
     try {
         let {username} = req.body
-        let user = await User.findOne({username})
-        let products = []
-        for (let productId of user.products){
-            let product = await Product.findById(productId)
-            products.push(product)
-        }
-        user.products = products
+        let user = await User.findOne({username}).populate('products')
         return res
         .status(200)
         .json({user})

@@ -6,9 +6,11 @@ import {useDispatch} from 'react-redux'
 import { X , Menu  } from 'lucide-react';
 import {logout} from '../../features/loginSlicer.js'
 import axios from 'axios'
+
 const Header = () => {
     const isLogin = useSelector((state) => state.login.isLogin)
     const user = useSelector((state) => state.login.user)
+    const cartCount = useSelector((state) => state.login.cartCount)
     const [isProfileOpen, setIsProfileOpen] = useState(false);
     const [search, setSearch] = useState('')
     const [searchPopup, setSearchPopup]  = useState(false)
@@ -18,6 +20,10 @@ const Header = () => {
     const [category, setCategory] = useState('See Options')
     const [region, setRegion] = useState('See Options')
     const [isDotsOpen, setIsDotsOpen] = useState(false)
+
+    // Debug logs
+    console.log("Header - Cart count:", cartCount);
+    console.log("Header - User:", user);
 
     useEffect(() => {
         if (category==='See Options' && region==='See Options') return;
@@ -119,29 +125,22 @@ const Header = () => {
                         </div>
                     </div>
                     <div className=" flex flex-[3_1_0%] h-full justify-center items-center">
-                        <NavLink to="/cart" className="h-full flex justify-center items-center">
-                            {/* <div className="px-4 bg-green-950 text-white rounded-full h-[70%] flex gap-2 justify-center items-center">
-                                <img className="h-[70%] object-fill" src="https://img.icons8.com/?size=100&id=9671&format=png&color=FFFFFF" />
-                                Cart
-                            </div> */}
-                            <button
-  class="cursor-pointer bg-gradient-to-b from-green-700 to-green-800 px-6 py-3 rounded-full border-[1px] border-green-900 text-white font-medium group"
->
-  <div class="relative overflow-hidden">
-    <p
-      class="group-hover:-translate-y-7 duration-[1.125s] ease-[cubic-bezier(0.19,1,0.22,1)]"
-    >
-      Cart 🛒
-    </p>
-    <p
-      class="absolute top-7 left-0 group-hover:top-0 duration-[1.125s] ease-[cubic-bezier(0.19,1,0.22,1)]"
-    >
-      Cart 🛒
-    </p>
-  </div>
-</button>
-
-
+                        <NavLink to="/cart" className="h-full flex justify-center items-center relative">
+                            <button className="cursor-pointer bg-gradient-to-b from-green-700 to-green-800 px-6 py-3 rounded-full border-[1px] border-green-900 text-white font-medium group relative">
+                                <div className="relative overflow-hidden">
+                                    <p className="group-hover:-translate-y-7 duration-[1.125s] ease-[cubic-bezier(0.19,1,0.22,1)]">
+                                        Cart 🛒
+                                    </p>
+                                    <p className="absolute top-7 left-0 group-hover:top-0 duration-[1.125s] ease-[cubic-bezier(0.19,1,0.22,1)]">
+                                        Cart 🛒
+                                    </p>
+                                </div>
+                                {cartCount > 0 && (
+                                    <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center">
+                                        {cartCount}
+                                    </span>
+                                )}
+                            </button>
                         </NavLink>
                     </div>
 
@@ -164,24 +163,24 @@ const Header = () => {
 
                                 {/* Profile Dropdown */}
                                 <div
-                                className={`w-36 absolute right-0 mt-2 bg-green-900 border-green-950 border-2 rounded-xl shadow-md transition-all 
-                                    ${isProfileOpen ? "opacity-100 visible z-20" : "opacity-0 invisible pointer-events-none"}`}
+                                className={`w-44 absolute right-0 mt-3 bg-white border border-green-200 rounded-2xl shadow-2xl transition-all duration-200
+                                    ${isProfileOpen ? "opacity-100 visible z-30" : "opacity-0 invisible pointer-events-none"}`}
                                 >
                                     <div
                                         onClick={() => setIsProfileOpen(false)}
-                                        className="cursor-pointer text-white text-xl font-bold p-2 text-right"
+                                        className="cursor-pointer text-green-900 text-2xl font-bold p-2 text-right hover:bg-green-50 rounded-t-2xl"
                                     >
                                         ×
                                     </div>
                                     <div onClick={(e) => {
                                         setIsProfileOpen(false)
                                         navigate(`/profile?username=${encodeURIComponent(user.username)}`)
-                                    }} className=" cursor-pointer text-white px-6 py-2 border-b border-amber-950 hover:bg-green-800">
+                                    }} className="cursor-pointer text-green-900 px-6 py-3 border-b border-green-100 hover:bg-green-50 text-base font-medium">
                                         My Profile
                                     </div>
                                     <div
                                         onClick={logoutHandler}
-                                        className="cursor-pointer text-white px-6 py-2 hover:bg-red-800 rounded-b-xl"
+                                        className="cursor-pointer text-red-700 px-6 py-3 hover:bg-red-50 rounded-b-2xl text-base font-medium"
                                     >
                                         Log out
                                     </div>
@@ -190,36 +189,32 @@ const Header = () => {
 
                             {/* Add Products Button */}
                             {user.isFarmer && <Link to="/addproduct" className="">
-                                {/* <div className="rounded-full bg-green-950 px-6 py-2 text-white text-center hover:bg-green-800 transition">
-                                Add Products
-                                </div> */}
                                 <button
-  class="relative flex items-center px-8 py-3 w-auto min-w-[150px] overflow-hidden font-medium transition-all bg-green-700 rounded-full border-2 border-green-900 group"
->
-  <span
-    class="absolute top-0 right-0 inline-block w-4 h-4 transition-all duration-500 ease-in-out bg-green-900 rounded-full group-hover:-mr-4 group-hover:-mt-4"
-  >
-    <span
-      class="absolute top-0 right-0 w-5 h-5 rotate-45 translate-x-1/2 -translate-y-1/2 bg-white"
-    ></span>
-  </span>
-  <span
-    class="absolute bottom-0 rotate-180 left-0 inline-block w-4 h-4 transition-all duration-500 ease-in-out bg-green-900 rounded-full group-hover:-ml-4 group-hover:-mb-4"
-  >
-    <span
-      class="absolute top-0 right-0 w-5 h-5 rotate-45 translate-x-1/2 -translate-y-1/2 bg-white"
-    ></span>
-  </span>
-  <span
-    class="absolute bottom-0 left-0 w-full h-full transition-all duration-500 ease-in-out delay-200 -translate-x-full bg-green-800 rounded-full group-hover:translate-x-0"
-  ></span>
-  <span
-    class="relative w-full text-center text-white transition-colors duration-200 ease-in-out group-hover:text-white"
-  >
-    Add Products
-  </span>
-</button>
-
+                                  className="relative flex items-center px-8 py-3 w-auto min-w-[150px] overflow-hidden font-medium transition-all bg-green-700 rounded-full border-2 border-green-900 group"
+                                >
+                                  <span
+                                    className="absolute top-0 right-0 inline-block w-4 h-4 transition-all duration-500 ease-in-out bg-green-900 rounded-full group-hover:-mr-4 group-hover:-mt-4"
+                                  >
+                                    <span
+                                      className="absolute top-0 right-0 w-5 h-5 rotate-45 translate-x-1/2 -translate-y-1/2 bg-white"
+                                    ></span>
+                                  </span>
+                                  <span
+                                    className="absolute bottom-0 rotate-180 left-0 inline-block w-4 h-4 transition-all duration-500 ease-in-out bg-green-900 rounded-full group-hover:-ml-4 group-hover:-mb-4"
+                                  >
+                                    <span
+                                      className="absolute top-0 right-0 w-5 h-5 rotate-45 translate-x-1/2 -translate-y-1/2 bg-white"
+                                    ></span>
+                                  </span>
+                                  <span
+                                    className="absolute bottom-0 left-0 w-full h-full transition-all duration-500 ease-in-out delay-200 -translate-x-full bg-green-800 rounded-full group-hover:translate-x-0"
+                                  ></span>
+                                  <span
+                                    className="relative w-full text-center text-white transition-colors duration-200 ease-in-out group-hover:text-white"
+                                  >
+                                    Add Products
+                                  </span>
+                                </button>
                             </Link>}
                             </> 
                         ) : (
@@ -284,6 +279,13 @@ const Header = () => {
                                     Search User
                                 </div>
                                 </NavLink>
+                                {user?.isFarmer && (
+                                    <NavLink to='/dashboard'>
+                                        <div onClick={() => setIsDotsOpen(false)} className="cursor-pointer text-white px-6 py-2 border-b border-amber-950 hover:bg-green-800  rounded-xl">
+                                            Dashboard
+                                        </div>
+                                    </NavLink>
+                                )}
                         </div>
                     </div>
 
