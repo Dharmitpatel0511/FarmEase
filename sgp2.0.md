@@ -19,6 +19,7 @@
    - Estimated delivery dates for buyers.
 
 #### 4. **Improved Search and Filters:**
+
    - Full-text search for better results.
 
 #### 5. **Community Forums:**
